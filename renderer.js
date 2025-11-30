@@ -156,6 +156,10 @@ function displaySounds() {
 
 // Event Listeners
 
+document.getElementById('openSoundsFolderBtn').addEventListener('click', async () => {
+  await ipcRenderer.invoke('open-sounds-folder');
+});
+
 document.getElementById('micSelect').addEventListener('change', (e) => {
   if (e.target.value) {
     setupMicrophone(e.target.value);

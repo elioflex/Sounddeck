@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -33,6 +33,16 @@ ipcMain.handle('get-sounds', async () => {
     }));
   
   return mp3Files;
+});
+
+ipcMain.handle('open-sounds-folder', async () => {
+  const soundsPath = path.join(__dirname, 'sounds');
+  
+  if (!fs.existsSync(soundsPath)) {
+    fs.mkdirSync(soundsPath);
+  }
+  
+  shell.openPath(soundsPath);
 });
 
 app.whenReady().then(createWindow);

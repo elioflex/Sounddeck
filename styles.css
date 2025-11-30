@@ -130,6 +130,11 @@ h1 {
   font-weight: 600;
 }
 
+.add-sound-section {
+  margin: 20px 0;
+  text-align: center;
+}
+
 .sound-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
