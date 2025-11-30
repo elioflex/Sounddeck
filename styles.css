@@ -61,7 +61,7 @@ h1 {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
 }
 
@@ -113,6 +113,28 @@ h1 {
   margin-bottom: 20px;
 }
 
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  color: #856404;
+}
+
+.info-header:hover {
+  opacity: 0.8;
+}
+
+.toggle-icon {
+  font-size: 12px;
+  transition: transform 0.3s;
+}
+
+.toggle-icon.expanded {
+  transform: rotate(-180deg);
+}
+
 .info-box p {
   font-weight: 600;
   margin-bottom: 10px;
@@ -123,6 +145,7 @@ h1 {
   margin-left: 20px;
   color: #856404;
   line-height: 1.8;
+  margin-top: 10px;
 }
 
 .info-box a {

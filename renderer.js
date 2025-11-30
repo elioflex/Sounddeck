@@ -7,6 +7,7 @@ let micGain;
 let soundGain;
 let destination;
 let sounds = [];
+let selectedOutputDevice = null;
 
 // Initialize Audio Context
 function initAudioContext() {
@@ -25,7 +26,11 @@ function initAudioContext() {
     soundGain.connect(destination);
     
     // Also connect to speakers so you can hear
+    micGain.connect(audioContext.destination);
     soundGain.connect(audioContext.destination);
+    
+    console.log('Audio context initialized');
+    console.log('MediaStreamDestination stream:', destination.stream);
   }
 }
 
@@ -46,6 +51,26 @@ async function getMicrophones() {
     });
   } catch (err) {
     console.error('Error getting microphones:', err);
+  }
+}
+
+// Get available audio output devices
+async function getOutputDevices() {
+  try {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const audioOutputs = devices.filter(device => device.kind === 'audiooutput');
+    
+    const outputSelect = document.getElementById('outputSelect');
+    outputSelect.innerHTML = '<option value="">Select Output (BlackHole)</option>';
+    
+    audioOutputs.forEach(device => {
+      const option = document.createElement('option');
+      option.value = device.deviceId;
+      option.textContent = device.label || `Output ${outputSelect.options.length}`;
+      outputSelect.appendChild(option);
+    });
+  } catch (err) {
+    console.error('Error getting output devices:', err);
   }
 }
 
@@ -156,8 +181,34 @@ function displaySounds() {
 
 // Event Listeners
 
+// Toggle setup instructions
+document.getElementById('infoHeader').addEventListener('click', () => {
+  const content = document.getElementById('infoContent');
+  const icon = document.querySelector('.toggle-icon');
+  
+  if (content.style.display === 'none') {
+    content.style.display = 'block';
+    icon.classList.add('expanded');
+  } else {
+    content.style.display = 'none';
+    icon.classList.remove('expanded');
+  }
+});
+
 document.getElementById('openSoundsFolderBtn').addEventListener('click', async () => {
   await ipcRenderer.invoke('open-sounds-folder');
+});
+
+document.getElementById('outputSelect').addEventListener('change', (e) => {
+  selectedOutputDevice = e.target.value;
+  console.log('Output device selected:', selectedOutputDevice);
+  
+  // Apply to existing audio context if available
+  if (audioContext && audioContext.destination && audioContext.destination.setSinkId) {
+    audioContext.destination.setSinkId(selectedOutputDevice)
+      .then(() => console.log('Audio output set to:', selectedOutputDevice))
+      .catch(err => console.error('Error setting output device:', err));
+  }
 });
 
 document.getElementById('micSelect').addEventListener('change', (e) => {
@@ -184,6 +235,7 @@ document.getElementById('soundVolume').addEventListener('input', (e) => {
 
 // Initialize
 getMicrophones();
+getOutputDevices();
 loadSounds();
 
 // Request microphone permission on load
