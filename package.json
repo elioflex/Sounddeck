@@ -1,0 +1,25 @@
+{
+  "name": "mic-mixer-soundboard",
+  "version": "1.0.0",
+  "description": "Real-time soundboard with microphone mixing for Mac",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "keywords": ["soundboard", "audio", "electron"],
+  "author": "Elioflex",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^27.0.0",
+    "electron-builder": "^24.6.4"
+  },
+  "dependencies": {},
+  "build": {
+    "appId": "com.soundboard.app",
+    "mac": {
+      "category": "public.app-category.music",
+      "target": ["dmg"]
+    }
+  }
+}

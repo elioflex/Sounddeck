@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>MicMixer Soundboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎵 MicMixer</h1>
+    </div>
+
+    <div class="audio-controls">
+      <div class="control-group">
+        <label>Microphone</label>
+        <select id="micSelect" class="select-input"></select>
+        <input type="range" id="micVolume" min="0" max="100" value="100" class="slider">
+        <span id="micVolumeLabel">100%</span>
+      </div>
+
+      <div class="control-group">
+        <label>Sound Volume</label>
+        <input type="range" id="soundVolume" min="0" max="100" value="80" class="slider">
+        <span id="soundVolumeLabel">80%</span>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <p><strong>Setup Instructions:</strong></p>
+      <ol>
+        <li>Place MP3 files in the <code>sounds/</code> folder in the app directory</li>
+        <li>In Audio MIDI Setup, create a Multi-Output Device with your output + BlackHole</li>
+        <li>Set the Multi-Output Device as your system output</li>
+        <li>In your app (Discord, Zoom, etc.), select BlackHole as input</li>
+        <li>Select your microphone below</li>
+      </ol>
+    </div>
+
+    <div id="soundGrid" class="sound-grid"></div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
